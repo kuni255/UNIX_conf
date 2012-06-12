@@ -1,0 +1,140 @@
+%++++++++++++++++++++++++++++++++++++++++++++++
+% platex base file ver 2.0 up-to-date 2012/01/11
+% change log
+% ver 2.0 Hayato Kuniie (2012/01/11)
+% 章見出しの大きさを小さくするようにする設定を追加
+% ver 1.0 Masato Takou (2007/02/23)
+%++++++++++++++++++++++++++++++++++++++++++++++
+\usepackage[dvipdfm]{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{cite}
+\usepackage{wrapfig}
+%\usepackage{slashbox}
+\usepackage{subfigure}
+% float package should be included before hyperref package
+\usepackage{float}
+% PDF 目次
+%\usepackage[dvipdfmx,bookmarks=true,bookmarksnumbered=true,bookmarkstype=toc,pdffitwindow=true,bookmarksdepth=3]{hyperref}
+%\AtBeginDvi{\special{pdf:tounicode EUC-UCS2}}
+% ヘッダーフッター関連パッケージ
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{okumacro}
+% 画像PATH の設定
+\graphicspath{{./image/}}
+% フォント関係のエラー抑止のためのファイルの読み込み
+\input{etc/fontdummy}
+\renewcommand{\bibname}{参考文献}
+\renewcommand\abstractname{要旨}
+\newcommand{\bm}[1]{\mbox{\boldmath $#1$}} %数式内でのfont変更コマンド
+%% chapter等見出しの文字の大きさの変更
+%% これらの設定は /usr/share/texmf/ptex/platex/base/jreport.cls を参考にしている
+\makeatletter
+\def\@makechapterhead#1{\hbox{}%
+   %\vskip0\Cvs
+   {\parindent\z@
+    \raggedright
+    \reset@font\bfseries
+    \leavevmode
+    \ifnum \c@secnumdepth >\m@ne
+      \setlength\@tempdima{\linewidth}%
+      \setbox\z@\hbox{\@chapapp\thechapter\@chappos\hskip1zw}%
+      \addtolength\@tempdima{-\wd\z@}%
+      \unhbox\z@\nobreak
+      \vtop{\hsize\@tempdima#1}%
+    \else
+      #1\relax
+    %\fi}\nobreak\vskip1\Cvs}
+    \fi}}
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+    {1.5\Cvs \@plus.5\Cvs \@minus.2\Cvs}%
+    {.5\Cvs \@plus.3\Cvs}%
+    {\reset@font\bfseries}}
+\makeatother
+%% chapter等見出しの変更設定終り
+%% subsection の設定変更
+\makeatletter
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+   {1.5\Cvs \@plus.5\Cvs \@minus.2\Cvs}%
+   {.5\Cvs \@plus.3\Cvs}%
+   {\reset@font\bfseries}}
+\makeatother
+%% sebsection の設定変更終り
+\def\figurename{図\mbox{}}
+\def\picturename{写真\mbox{}}
+\def\tablename{表\mbox{}}
+% 図、表、式の参照指定の簡略化
+\newcommand{\fnum}[1]{図\ref{#1}}
+\newcommand{\tnum}[1]{表\ref{#1}}
+\newcommand{\pnum}[1]{写真\ref{#1}}
+\newcommand{\enum}[1]{式(\ref{#1})}
+%
+\makeatletter
+%表、図のminipage内番号設定
+\def\tabcaption{\def\@captype{table}\caption}
+\def\figcaption{\def\@captype{figure}\caption}
+\def\piccaption{\def\@captype{photo}\caption}
+%\def\photocaption{\def\@captype{photo}\caption}
+%参考文献の参照
+\def\@cite#1{\textsuperscript{#1)}}
+%表、図のコロン(:)を除去するための設定
+\long\def\@makecaption#1#2{% \@makecaption を再定義します
+  \vskip\abovecaptionskip
+  \iftdir\sbox\@tempboxa{#1\hskip1zw#2}%
+    \else\sbox\@tempboxa{#1~ #2}% ここの : を ~ に変更する
+  \fi
+  \ifdim \wd\@tempboxa >\hsize% 
+    \iftdir #1\hskip1zw#2\relax\par
+      \else #1~ #2\relax\par\fi% ここの : を ~ に変更する
+  \else
+    \global \@minipagefalse
+    \hbox to\hsize{\hfil\box\@tempboxa\hfil}% センタリング
+%   \hbox to\hsize{\box\@tempboxa\hfil}%      左詰め
+%   \hbox to\hsize{\hfil\box\@tempboxa}%      右詰め
+  \fi
+  \vskip\belowcaptionskip}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%写真のフロート環境の設定
+\newcounter{photo}[chapter]
+\renewcommand{\thephoto}
+     {\ifnum \c@chapter>\z@ \thechapter.\fi\@arabic\c@photo}
+\def\fps@photo{tbp}
+\def\ftype@photo{4}% figure:1 table:2 photo:4 ... next 8 16 32 
+\def\ext@photo{lop}% list of photos
+\def\fnum@photo{\photoname~\thephoto}
+\newenvironment{photo}%
+               {\@float{photo}}%
+               {\end@float}
+\newenvironment{photo*}%
+               {\@dblfloat{photo}}%
+               {\end@dblfloat}
+
+\newcommand{\listofphotos}{%% 写真目次
+  \if@twocolumn\@restonecoltrue\onecolumn
+  \else\@restonecolfalse\fi
+  \chapter*{\listphotoname}
+  \@mkboth{\listphotoname}{\listphotoname}%
+  \@starttoc{lop}% list of photos
+  \if@restonecol\twocolumn\fi
+}
+
+\newcommand*{\l@photo}{\@dottedtocline{1}{1.5em}{2.3em}}
+
+\newcommand{\listphotoname}{写真目次}
+\newcommand{\photoname}{写真}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%余白の設定
+\setlength{\oddsidemargin}{10.6mm}	%偶数ページの左側余白
+\setlength{\evensidemargin}{10.6mm}	%奇数ページの左側余白
+\setlength{\textheight}{240mm}		%文章を記述する領域の高さ
+\setlength{\topmargin}{-14.4mm}		%ヘッダーの位置
+\setlength{\headheight}{5mm}		%ヘッダーの高さ
+\setlength{\headsep}{20mm}			%ヘッダーと文章を記述する領域の間の間隔
+\setlength{\textwidth}{158mm}		%文章を記述する領域の幅
+%ページ番号の出力位置の変更
+\pagestyle{headnombre}
