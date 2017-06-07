@@ -1,8 +1,9 @@
-colorscheme evening 
 set number
+syntax enable
 set clipboard=unnamed
 set encoding=utf-8
 set fileencodings=euc-jp,utf-8,sjis
+colorscheme koehler
 if has('multi_byte_ime') || has('uim')
 	highlight CursorIM guibg=Red guifg=NONE
 endif
@@ -11,7 +12,8 @@ set wildmenu
 "" tab setttings
 ""
 set expandtab
-set tabstop=3
+set tabstop=2
+set shiftwidth=2
 ""
 ""indentation
 ""
