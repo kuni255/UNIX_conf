@@ -1,0 +1,6 @@
+#%Module1.0
+
+set-alias gc "git commit"
+set-alias gp "git pull -r"
+set-alias gs "git status"
+set-alias gcb "git checkout -b"
