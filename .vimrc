@@ -55,3 +55,7 @@ let g:Tex_ViewRule_pdf = 'texworks'
 "let g:Tex_ViewRule_pdf = 'evince'
 "let g:Tex_ViewRule_pdf = 'okular --unique'
 "let g:Tex_ViewRule_pdf = 'zathura'
+
+call plug#begin()
+Plug 'davidhalter/jedi-vim'
+call plug#end()
