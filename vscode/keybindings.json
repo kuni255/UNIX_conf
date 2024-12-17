@@ -11,7 +11,7 @@
         "when": "editorHasDefinitionProvider && editorTextFocus"
     },
     {
-        "key": "ctrl+cmd+left",
+        "key": "ctrl+cmd+h",
         "command": "workbench.action.navigateBack",
         "when": "canNavigateBack"
     },
@@ -21,7 +21,7 @@
         "when": "canNavigateBack"
     },
     {
-        "key": "ctrl+cmd+right",
+        "key": "ctrl+cmd+l",
         "command": "workbench.action.navigateForward",
         "when": "canNavigateForward"
     },
