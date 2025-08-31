@@ -33,7 +33,7 @@
       "KC_LGUI",
       "FN_MO13",
       "KC_SPC",
-      "KC_HOME",
+      "KC_LALT",
       "KC_BSPC",
       "KC_0",
       "KC_9",
@@ -60,7 +60,7 @@
       "KC_N",
       "KC_NO",
       "KC_NO",
-      "KC_RALT",
+      "KC_HOME",
       "FN_MO23",
       "KC_ENT",
       "KC_END"
